@@ -1,0 +1,24 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/backend
+permissions:
+  - object: /var/www/backend
+    pattern: "**"
+    owner: root
+    group: root
+    mode: 755
+hooks:
+  ApplicationStop:
+    - location: DeploymentScripts/stop_server.sh
+      timeout: 300
+      runas: root
+  BeforeInstall:
+    - location: DeploymentScripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: DeploymentScripts/start_server.sh
+      timeout: 300
+      runas: root

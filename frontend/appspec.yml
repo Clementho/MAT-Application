@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/Frontend/matapp
+permissions:
+  - object: /var/www/html/Frontend/matapp
+    pattern: "**"
+    owner: root
+    group: root
+    mode: 755
+hooks:
+  ApplicationStart:
+    - location: DeploymentScripts/start_server.sh
+      timeout: 300

@@ -1,0 +1,185 @@
+{
+    "bookingID": "651956f4a61896f878918bf2",
+    "therapistID": "6519259a63382d1e76c8ae80",
+    "atClinic": true,
+    "patient": {
+        "personalInfo": {
+            "gender": "Male",
+            "lastName": "Smith",
+            "firstName": "John",
+            "dob": "03-04-1999"
+        },
+        "medicalInfo": {
+            "diagnosis": "Cerebral Palsy",
+            "otherMedicalConcerns": "History of asthma",
+            "pastSurgery": "Orthopedic surgery on left leg",
+            "futureSurgery": "Planned spinal fusion surgery",
+            "otherInterventions": "Physical therapy",
+            "orthotics": "Ankle-foot orthosis (AFO)",
+            "vision": "Impaired w/correction",
+            "hearing": "Within normal limits"
+        }
+    },
+    "currentSeating": {
+        "pelvis": {
+            "tilt": "Neutral",
+            "obliquity": "Neutral",
+            "rotation": "Neutral"
+        },
+        "trunk": {
+            "antPosterior": "Neutral",
+            "scoliosis": "Neutral",
+            "rotation": "Neutral"
+        },
+        "hips": {
+            "thighTrunkAngle": {
+                "leftAngle": 90,
+                "rightAngle": 90
+            },
+            "position": {
+                "condition": "Neutral",
+                "rotation": "External Rotation-L"
+            },
+            "windswept": "Neutral"
+        },
+        "kneesFeet": {
+            "thighLowerLegAngle": {
+                "leftAngle": 90,
+                "rightAngle": 90
+            },
+            "lowerLegFootAngle": {
+                "leftAngle": 90,
+                "leftFlexion": "Dorsi-flex",
+                "rightAngle": 90,
+                "rightFlexion": "Plantar-flex"
+            },
+            "footPosition": {
+                "leftPosition": "Neutral",
+                "rightPosition": "Neutral"
+            }
+        },
+        "headNeck": {
+            "cervicalCurve": "Neutral",
+            "neckPosition": "Midline",
+            "control": "Independent Head Control and Full ROM"
+        },
+        "upperLimbs": {
+            "shoulderPosition": "Level",
+            "elbowForearmPosition": "Arm Support",
+            "wristHandgrip": "Normal Grip Strength"
+        },
+        "comments": "Patient seated comfortably with good posture. No observed issues."
+    },
+    "supine": {
+        "pelvis": {
+            "tilt": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            },
+            "obliquity": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            },
+            "rotation": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            }
+        },
+        "trunk": {
+            "antPosterior": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            },
+            "scoliosis": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            },
+            "rotation": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            }
+        },
+        "lowerExtremities": {
+            "trunkThighAngle": {
+                "leftAngle": 45,
+                "rightAngle": 60,
+                "observation": "all g"
+            },
+            "thighLowLegAngle": {
+                "leftAngle": 120,
+                "rightAngle": 150,
+                "observation": "all g"
+            },
+            "lowerLegFootAngle": {
+                "leftAngle": 90,
+                "rightAngle": 110,
+                "observation": "all g"
+            },
+            "hipDuction": "vasdv",
+            "hipRotation": "vasva",
+            "footInEversion": "avsdvasd"
+        },
+        "headNeck": {
+            "cervicalCurve": "Neutral",
+            "lateralFlexion": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            },
+            "rotation": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            }
+        },
+        "upperLimbs": {
+            "shoulderPROM": "Level",
+            "elbowForearmPROM": 135,
+            "wristHand": "Normal Grip Strength"
+        },
+        "comments": "Patient displayed good range of motion during assessment."
+    },
+    "sitting": {
+        "balance": "Hands-free sitter",
+        "pelvis": {
+            "tilt": "Neutral",
+            "obliquity": "Neutral",
+            "rotation": "Neutral"
+        },
+        "trunk": {
+            "antPosterior": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            },
+            "scoliosis": {
+                "condition": "Neutral",
+                "flexibility": "Fixed"
+            },
+            "rotation": "Neutral"
+        },
+        "lowerExtremities": {
+            "initialSittingAngles": {
+                "thighTrunk": 90,
+                "thighLowerLeg": 120
+            },
+            "position": {
+                "condition": "Neutral",
+                "rotation": "External Rotation-L"
+            },
+            "windswept": "Neutral"
+        },
+        "headNeck": {
+            "cervicalCurve": "Neutral",
+            "neckPosition": "Neutral",
+            "control": "Neutral"
+        },
+        "upperLimbs": {
+            "shoulderPosition": {
+                "condition": "Level",
+                "description": "basdbabad"
+            },
+            "elbowForearmPosition": "Neutral",
+            "handWristPosition": "Neutral"
+        },
+        "comments": "Patient demonstrated good balance and posture while sitting."
+    }
+}
+

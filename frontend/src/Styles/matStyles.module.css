@@ -1,0 +1,111 @@
+* {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.mat-container{
+    margin-top: 170px;
+    margin-left: 200px;
+}
+
+.mat-container-content {
+    border-radius: 20px;
+    width: 90%;
+    background-color: #FFFFFF;
+    margin: auto;
+    font-size: 1.3em;
+}
+
+.page-item {
+	list-style-type: none;
+	display: inline;
+	padding: 10px;
+	
+}
+
+.page-link {
+	padding: 10px;
+	text-decoration: none;
+	color: #2C2A29;
+}
+
+.page-item:hover {
+	background-color: #A9D9F3;
+}
+
+.active {
+	background-color: #39A9E0;
+	font-weight: bold;
+}
+
+.active > .page-link {
+	color: white;
+}
+
+.active:hover {
+	background-color: #39A9E0;
+}
+
+.table {
+	text-align: center;
+	margin-left: 20px;
+	margin-right: 20px;
+
+}
+
+.tableHead {
+	padding: 20px;
+	font-weight: bolder;
+	text-align: left;
+	text-indent: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tableCell {
+	padding: 20px;
+	text-align: left;
+	text-indent: 20px;
+	border-bottom: 1px solid;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tableButtonCell {
+	text-align: right;
+	border-bottom: 1px solid;
+}
+
+.buttonDiv {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.tableButton {
+	padding: 0px;
+	background-color: rgba(0,0,0,0);
+	font-size: 1em;
+}
+
+.trashIcon {
+	color: #E72971;
+}
+
+td {
+	background-color: #F6F6F6;
+}
+
+th {
+	background-color: #D9D9D9;
+}
+
+.matsearch {
+	margin: 20px;
+	padding: 10px;
+	width: 50%;
+	background-color: #F6F6F6;
+	font-weight: bold;
+	border-style: none;
+	border-radius: 12px;
+}

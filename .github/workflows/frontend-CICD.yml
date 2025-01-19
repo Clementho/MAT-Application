@@ -1,0 +1,73 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: MAT Frontend CI/CD
+
+on:
+  # Workflow trigger on GIT PUSH
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'frontend/**' # Trigger for changes in the Frontend directory
+
+jobs:
+  # Build & deploy job configurations for MAT application frontend
+  build-deploy-frontend:
+    name: Build & Deploy Frontend
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ['18.x'] # Specify supported node versions for the application
+        application-name: ['MAT_Frontend']
+        deployment-group: ['MAT_Frontend_DepGroup']
+        s3-bucket: ['mat-s3bucket']
+        s3-filename: ['frontend']
+
+    steps:
+    - name: Checkout Frontend Code
+      uses: actions/checkout@v4
+
+    # Initialize Node.js
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    # Install project dependencies and build
+    - name: Install Frontend Dependencies
+      run: npm ci
+      working-directory: frontend
+
+    - name: Build Frontend
+      run: npm run build --if-present
+      working-directory: frontend
+    
+    # Configure AWS credentials
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2
+
+    # Deploy push to AWS S3
+    - name: Push Application Revision onto S3
+      run: |
+        aws deploy push \
+        --application-name ${{ matrix.application-name }} \
+        --s3-location s3://${{ matrix.s3-bucket }}/${{ matrix.s3-filename }}.zip \
+        --ignore-hidden-files \
+        --source frontend
+
+    - name: Deploy Application Revision onto EC2
+      run: |
+        aws deploy create-deployment \
+          --application-name ${{ matrix.application-name }} \
+          --deployment-group-name ${{ matrix.deployment-group }} \
+          --description "Frontend deployment from GitHub Actions" \
+          --s3-location bucket=${{ matrix.s3-bucket }},bundleType=zip,key=${{ matrix.s3-filename }}.zip \
+          --deployment-config-name CodeDeployDefault.HalfAtATime \
+          --file-exists-behavior OVERWRITE \
+          --ignore-application-stop-failures

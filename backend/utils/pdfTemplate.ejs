@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <link href="https://firebasestorage.googleapis.com/v0/b/mat-image.appspot.com/o/styles.css?alt=media&token=87f78b3e-b413-40f2-8966-886231c509e6&_gl=1*1gy17uk*_ga*MTcwNzgzMDE0OC4xNjkzODI3OTM0*_ga_CW55HF8NVT*MTY5NjQyNDYyNS4xMS4xLjE2OTY0MjQ2ODIuMy4wLjA" rel="stylesheet" type="text/css">
+  
+  <title><%= data._id %></title>
+</head>
+
+<!-- Format date values to 0 Month 0000 format -->
+<% function formatDate(date) {
+  const options = { day: 'numeric', month: 'long', year: 'numeric'}
+  return date.toLocaleDateString('en-ZA', options);
+} %>
+
+<!-- Format image file paths using measurement data value -->
+<!-- If field is empty, no image tag will be generated -->
+<% async function formatIMGPath(basePath, data) {
+  let dataValue;
+
+  if(data === "Lumbar C-Curve Flattening") {
+    dataValue = data.replace(/ /g, '');
+  } else if(data.includes("-")){
+    dataValue = data.split("-")[0]
+  } else {
+    dataValue = data.replace(/ /g, '');
+  }
+
+  if(dataValue !== "") {
+    const filePath = `${basePath}-${dataValue}.jpg`
+    try {
+      const result = await img.getImage(filePath)
+    %>
+      <img class="anatomy-image" src=<%= result %> alt="anatomy image" >
+    <% } catch {
+      console.error('Error:', error);
+    } 
+
+  } else {
+      return ""
+    }
+
+} %>
+
+<!-- Format boolen values to Yes/No -->
+<% function formatBooleanValue(data) {
+  return data ? "Yes" : "No"
+} %>
+
+<!-- Check if field is empty -->
+<% function formatEmptyValue(data) {
+  if (data === null || data === undefined || data === "") {
+    return "-";
+
+  } else if (!Number.isNaN(data)) {
+    return data;
+
+  } else if (data.trim() === "") {
+    return "-";
+
+  } else {
+    return data;
+  }
+} %>
+
+<!-- If field is empty, assign an "emptyField" class name to apply a grey background shading to indicate empty fields -->
+<% function formatEmptyValueClass(data, originClassName) {
+  if(formatEmptyValue(data) === "-") {
+    return `${originClassName} emptyField`
+  }
+
+  return originClassName
+} %>
+
+<body>
+    <header>
+        <img class="header-logo" src="https://firebasestorage.googleapis.com/v0/b/mat-image.appspot.com/o/ScopeLogo.jpg?alt=media&token=5f17a9e3-6809-4447-9662-dbe3b2defd3b&_gl=1*1vdiioc*_ga*MTcwNzgzMDE0OC4xNjkzODI3OTM0*_ga_CW55HF8NVT*MTY5NjM3OTQxMS44LjEuMTY5NjM3OTg1NC42MC4wLjA." alt="Scope Logo" >
+        <div class="header-details">
+            <h1>MAT Assessment Record</h1>
+            <ul>
+              <li><span>Assessment Date:</span> <%= formatDate(data.createdAt) %></li>
+              <li><span>Therapist:</span> <%= data.therapistID.firstName %> <%= data.therapistID.lastName %></li>
+              <li><span>At Clinic:</span> <%= formatBooleanValue(data.atClinic) %></li>
+            </ul>
+        </div>
+    </header>
+    
+
+    <!--Client Details-->
+    <table class="clientDetails-table">
+      <thead>
+        <tr>
+        <th colspan="2" class="table-header">Client Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span>First Name</span><%= data.patient.personalInfo.firstName %></td>
+          <td><span>Last Name</span><%= data.patient.personalInfo.lastName %></td>
+        </tr>
+        <tr>
+          <td><span>Date of Birth</span><%= formatDate(data.patient.personalInfo.dob) %></td>
+          <td><span>Gender</span><%= data.patient.personalInfo.gender %></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <table class="medicalInfo-table">
+      <thead>
+        <tr>
+        <th colspan="2" class="table-header ">Medical Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.diagnosis, "") %>" >
+          <th>Diagnosis</th>
+          <td><%= data.patient.medicalInfo.diagnosis %></td>
+        </tr>
+
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.otherMedicalConcerns, "") %>" >
+          <th>Other Medical Concerns</th>
+          <td><%= data.patient.medicalInfo.otherMedicalConcerns %></td>
+        </tr>
+
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.pastSurgery, "") %>" >
+          <th>Past Surgery</th>
+          <td><%= data.patient.medicalInfo.pastSurgery %></td>
+        </tr>
+
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.futureSurgery, "") %>" >
+          <th>Future Surgery</th>
+          <td><%= data.patient.medicalInfo.futureSurgery %></td>
+        </tr>
+
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.otherInterventions, "") %>" >
+          <th>Other Interventions</th>
+          <td><%= data.patient.medicalInfo.otherInterventions %></td>
+        </tr>
+
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.orthotics, "") %>" >
+          <th>Orthotics</th>
+          <td><%= data.patient.medicalInfo.orthotics %></td>
+        </tr>
+
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.vision, "") %>" >
+          <th>Vision</th>
+          <td><%= data.patient.medicalInfo.vision %></td>
+        </tr>
+
+        <tr class="<%= formatEmptyValueClass(data.patient.medicalInfo.hearing, "") %>" >
+          <th>Hearing</th>
+          <td><%= data.patient.medicalInfo.hearing %></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Current Seating -->
+    <table class="measurementData-table">
+        <thead>
+            <tr>
+            <th colspan="4" class="table-header">Current Seating</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="table-row-headers">
+              <th rowspan="3" class="table-row-mainHeader">Pelvis</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.pelvis.tilt, "") %>" >Tilt (Side View)</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.pelvis.obliquity, "") %>" >Obliquity (Frontal View)</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.pelvis.rotation, "") %>" >Rotation (Top View)</th>
+            </tr>
+
+            <tr class="table-row-images">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.pelvis.tilt, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-tilt", data.currentSeating.pelvis.tilt) %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.pelvis.obliquity, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-obliquity", data.currentSeating.pelvis.obliquity) %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.pelvis.rotation, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-rotation", data.currentSeating.pelvis.rotation) %>
+              </td>
+            </tr>
+
+            <tr class="measurementData-values">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.pelvis.tilt, "") %>" >
+                <%= data.currentSeating.pelvis.tilt %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.pelvis.obliquity, "") %>" >
+                <%= data.currentSeating.pelvis.obliquity %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.pelvis.rotation, "") %>" >
+                <%= data.currentSeating.pelvis.rotation %>
+              </td>
+            </tr>
+
+            <tr class="table-row-headers">
+              <th rowspan="3" class="table-row-mainHeader">Trunk</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.trunk.antPosterior, "") %>" >Anterior/Posterior</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.trunk.scoliosis, "") %>" >Scoliosis (Frontal View)</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.trunk.rotation, "") %>" >Rotation (Top View)</th>
+            </tr>
+
+            <tr class="table-row-images">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.trunk.antPosterior, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/trunk-anteriorPosterior", data.currentSeating.trunk.antPosterior) %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.trunk.scoliosis, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/trunk-scoliosis", data.currentSeating.trunk.scoliosis) %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.trunk.rotation, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/trunk-rotation", data.currentSeating.trunk.rotation) %>
+              </td>
+            </tr>
+
+            <tr class="measurementData-values">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.trunk.antPosterior, "") %>" >
+                <%= data.currentSeating.trunk.antPosterior %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.trunk.scoliosis, "") %>" >
+                <%= data.currentSeating.trunk.scoliosis %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.trunk.rotation, "") %>" >
+                <%= data.currentSeating.trunk.rotation %>
+              </td>
+            </tr>
+
+            <tr class="table-row-headers">
+              <th rowspan="3" class="table-row-mainHeader">Hips</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.hips.thighTrunkAngle.leftAngle, "") %>" >Thigh to Trunk Angle</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.hips.position.condition, "") %>" >Position (Frontal View)</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.hips.windswept, "") %>" >Windswept (Frontal View)</th>
+            </tr>
+
+            <tr class="table-row-images">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.hips.thighTrunkAngle.leftAngle, "") %>" >
+                <img class="anatomy-image-angle" src="https://firebasestorage.googleapis.com/v0/b/mat-image.appspot.com/o/thighTrunkAngle.jpg?alt=media&token=020af48a-9400-4f5e-91f8-a7eb7d9c48b1&_gl=1*1y3vew*_ga*MTcwNzgzMDE0OC4xNjkzODI3OTM0*_ga_CW55HF8NVT*MTY5NjM3OTQxMS44LjEuMTY5NjM3OTkwMC4xNC4wLjA." alt="anatomy image" >
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.hips.position.condition, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/hips-position", data.currentSeating.hips.position.condition) %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.hips.windswept, "") %>" >
+                <%- await formatIMGPath("gs://mat-image.appspot.com/hips-windswept", data.currentSeating.hips.windswept) %>
+              </td>
+            </tr>
+
+            <tr class="measurementData-values">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.hips.thighTrunkAngle.leftAngle, "angles") %>" >
+                <div><span>Left:</span><%= data.currentSeating.hips.thighTrunkAngle.leftAngle %>&#176;</div>
+                <div><span>Right:</span><%= data.currentSeating.hips.thighTrunkAngle.rightAngle %>&#176;</div>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.hips.position.condition, "angles") %>" >
+                <div><%= data.currentSeating.hips.position.condition %>, <%= data.currentSeating.hips.position.rotation %></div>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.hips.windswept, "") %>" >
+                <%= data.currentSeating.hips.windswept %>
+              </td>
+            </tr>
+
+            <tr class="table-row-headers">
+              <th rowspan="3" class="table-row-mainHeader">Knees and Feet</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.thighLowerLegAngle.leftAngle, "") %>" >Thigh-Lower Leg Angle</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.lowerLegFootAngle.leftAngle, "") %>" >Lower Leg-Foot Angle</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.footPosition.leftPosition, "") %>" >Foot Position</th>
+            </tr>
+
+            <tr class="table-row-images">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.thighLowerLegAngle.leftAngle, "") %>" >
+                <img class="anatomy-image-angle" src="https://firebasestorage.googleapis.com/v0/b/mat-image.appspot.com/o/thighLowerLegAngle.jpg?alt=media&token=0045eedc-e71b-421d-a525-555f4a185664&_gl=1*c6fb7y*_ga*MTcwNzgzMDE0OC4xNjkzODI3OTM0*_ga_CW55HF8NVT*MTY5NjM3OTQxMS44LjEuMTY5NjM3OTkzMy42MC4wLjA." alt="anatomy image" >
+              </td>
+              
+              <td class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.lowerLegFootAngle.leftAngle, "") %>" >
+                <img class="anatomy-image-angle" src="https://firebasestorage.googleapis.com/v0/b/mat-image.appspot.com/o/lowerLegFootAngle.jpg?alt=media&token=87ac2f06-dd79-4ea4-af47-93058cfee2cb&_gl=1*15lnp8e*_ga*MTcwNzgzMDE0OC4xNjkzODI3OTM0*_ga_CW55HF8NVT*MTY5NjM3OTQxMS44LjEuMTY5NjM3OTk3OC4xNS4wLjA." alt="anatomy image" >
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.footPosition.leftPosition, " angles") %>" rowspan="2">
+                <div><span>Left:</span><%= data.currentSeating.kneesFeet.footPosition.leftPosition %></div>
+                <div><span>Right:</span><%= data.currentSeating.kneesFeet.footPosition.rightPosition %></div>
+              </td>
+            </tr>
+
+            <tr class="measurementData-values">
+              <td class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.thighLowerLegAngle.leftAngle, "angles") %>" >
+                <div><span>Left:</span><%= data.currentSeating.kneesFeet.thighLowerLegAngle.leftAngle %>&#176;</div>
+                <div><span>Right:</span><%= data.currentSeating.kneesFeet.thighLowerLegAngle.rightAngle %>&#176;</div>
+              </td>
+              <td class="<%= formatEmptyValueClass(data.currentSeating.kneesFeet.lowerLegFootAngle.leftAngle, "angles") %>" >
+                <div><span>Left:</span><%= data.currentSeating.kneesFeet.lowerLegFootAngle.leftAngle %>&#176;, <%= data.currentSeating.kneesFeet.lowerLegFootAngle.leftFlexion %></div>
+                <div><span>Right:</span><%= data.currentSeating.kneesFeet.lowerLegFootAngle.rightAngle %>&#176;, <%= data.currentSeating.kneesFeet.lowerLegFootAngle.rightFlexion %></div>
+              </td>
+            </tr>
+
+            <tr class="table-row-headers">
+              <th rowspan="2" class="table-row-mainHeader">Head and Neck</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.headNeck.cervicalCurve, "") %>" >Cervical Curve (Side View)</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.headNeck.neckPosition, "") %>" >Neck Position (Frontal View)</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.headNeck.control, "") %>" >Control</th>
+            </tr>
+
+            <tr>
+              <td class="<%= formatEmptyValueClass(data.currentSeating.headNeck.cervicalCurve, "") %>" >
+                <%= data.currentSeating.headNeck.cervicalCurve %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.headNeck.neckPosition, "") %>" >
+                <%= data.currentSeating.headNeck.neckPosition %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.headNeck.control, "") %>" >
+                <%= data.currentSeating.headNeck.control %>
+              </td>
+            </tr>
+
+            <tr class="table-row-headers">
+              <th rowspan="2" class="table-row-mainHeader">Upper Limbs</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.headNeck.cervicalCurve, "") %>" >Shoulder Positioning</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.headNeck.neckPosition, "") %>" >Elbow and Forearm Position</th>
+              <th class="<%= formatEmptyValueClass(data.currentSeating.headNeck.control, "") %>" >Wrist and Handgrip</th>
+            </tr>
+
+            <tr>
+              <td class="<%= formatEmptyValueClass(data.currentSeating.headNeck.cervicalCurve, "") %>" >
+                <%= data.currentSeating.upperLimbs.shoulderPosition %>
+              </td>
+
+              <td class="<%= formatEmptyValueClass(data.currentSeating.headNeck.neckPosition, "") %>" >
+                <%= data.currentSeating.upperLimbs.elbowForearmPosition %>
+              </td>
+              
+              <td class="<%= formatEmptyValueClass(data.currentSeating.headNeck.control, "") %>" >
+                <%= data.currentSeating.upperLimbs.wristHandgrip %>
+              </td>
+            </tr>
+
+            <tr class="comments">
+              <th class="table-row-mainHeader">Comments</th>
+              <td colspan="3" class="<%= formatEmptyValueClass(data.currentSeating.comments, "") %>" >
+              <% if (data.currentSeating.comments !== undefined) { %>
+              <% const currentSeatingComments = data.currentSeating.comments.split("."); %>
+                <ul>
+                  <% currentSeatingComments.map((comment) => { %>
+                    <% const trimmedComment = comment.trim(); %>
+                    <% if (trimmedComment) { %>
+                      <li><%= trimmedComment %></li>
+                    <% } %>
+                  <% }); %>
+                </ul>
+              <% } %>
+              </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Supine -->
+    <table class="measurementData-table">
+      <thead>
+          <tr>
+          <th colspan="4" class="table-header">Supine</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr class="table-row-headers">
+            <th rowspan="3" class="table-row-mainHeader">Pelvis</th>
+            <th class="<%= formatEmptyValueClass(data.supine.pelvis.tilt.condition, "") %>" >Tilt</th>
+            <th class="<%= formatEmptyValueClass(data.supine.pelvis.obliquity.condition, "") %>" >Obliquity</th>
+            <th class="<%= formatEmptyValueClass(data.supine.pelvis.rotation.condition, "") %>" >Rotation</th>
+          </tr>
+
+          <tr class="table-row-images">
+            <td class="<%= formatEmptyValueClass(data.supine.pelvis.tilt.condition, "") %>" >
+              <%- await formatIMGPath("gs://mat-image.appspot.com/supine-pelvis-tilt", data.supine.pelvis.tilt.condition) %>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.pelvis.obliquity.condition, "") %>" >
+              <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-obliquity", data.supine.pelvis.obliquity.condition) %>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.pelvis.rotation.condition, "") %>" >
+              <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-rotation", data.supine.pelvis.rotation.condition) %>
+            </td>
+          </tr>
+
+          <tr class="measurementData-values">
+            <td class="<%= formatEmptyValueClass(data.supine.pelvis.tilt.condition, "angles") %>" >
+              <div><%= data.supine.pelvis.tilt.condition %>, <%= data.supine.pelvis.tilt.flexibility %></div>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.pelvis.obliquity.condition, "angles") %>" >
+              <div><%= data.supine.pelvis.obliquity.condition %>, <%= data.supine.pelvis.obliquity.flexibility %></div>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.pelvis.rotation.condition, "angles") %>" >
+              <div><%= data.supine.pelvis.rotation.condition %>, <%= data.supine.pelvis.rotation.flexibility %></div>
+            </td>
+          </tr>
+
+          <tr class="table-row-headers">
+            <th rowspan="3" class="table-row-mainHeader">Trunk</th>
+            <th class="<%= formatEmptyValueClass(data.supine.trunk.antPosterior.condition, "") %>" >Anterior/Posterior</th>
+            <th class="<%= formatEmptyValueClass(data.supine.trunk.scoliosis.condition, "") %>" >Scoliosis</th>
+            <th class="<%= formatEmptyValueClass(data.supine.trunk.rotation.condition, "") %>" >Rotation</th>
+          </tr>
+
+          <tr class="table-row-images">
+            <td class="<%= formatEmptyValueClass(data.supine.trunk.antPosterior.condition, "") %>" >
+              <%- await formatIMGPath("gs://mat-image.appspot.com/supine-trunk-anteriorPosterior", data.supine.trunk.antPosterior.condition) %>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.trunk.scoliosis.condition, "") %>" >
+              <%- await formatIMGPath("gs://mat-image.appspot.com/trunk-scoliosis", data.supine.trunk.scoliosis.condition) %>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.trunk.rotation.condition, "") %>" >
+              <%- await formatIMGPath("gs://mat-image.appspot.com/supine-trunk-rotation", data.supine.trunk.rotation.condition) %>
+            </td>
+          </tr>
+
+          <tr class="measurementData-values">
+            <td class="<%= formatEmptyValueClass(data.supine.trunk.antPosterior.condition, "angles") %>" >
+              <div><%= data.supine.trunk.antPosterior.condition %>, <%= data.supine.trunk.antPosterior.flexibility %></div>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.trunk.scoliosis.condition, "angles") %>" >
+              <div><%= data.supine.trunk.scoliosis.condition %>, <%= data.supine.trunk.scoliosis.flexibility %></div>
+            </td>
+            
+            <td class="<%= formatEmptyValueClass(data.supine.trunk.rotation.condition, "angles") %>" >
+              <div><%= data.supine.trunk.rotation.condition %>, <%= data.supine.trunk.rotation.flexibility %></div>
+            </td>
+          </tr>
+
+          <tr class="table-row-headers">
+            <th rowspan="4" class="table-row-mainHeader">Lower Extremities</th>
+            <th>Angles</th>
+            <th>
+              <div>Range of Motion</div>
+              <div>
+                <span>Left</span>
+                <span>Right</span>
+              </div>
+            </th>
+            <th>Observation</th>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="angles-subheaders">
+                <span>Trunk-Thigh Angle:</span>
+                <span>Thigh-Lower Leg Angle:</span>
+                <span>Leg-Foot Angle:</span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <span><%= data.supine.lowerExtremities.trunkThighAngle.leftAngle %>&#176;</span>
+                <span><%= data.supine.lowerExtremities.trunkThighAngle.rightAngle %>&#176;</span>
+              </div>
+              <div>
+                <span><%= data.supine.lowerExtremities.thighLowLegAngle.leftAngle %>&#176;</span>
+                <span><%= data.supine.lowerExtremities.thighLowLegAngle.rightAngle %>&#176;</span>
+              </div>
+              <div>
+                <span><%= data.supine.lowerExtremities.lowerLegFootAngle.leftAngle %>&#176;</span>
+                <span><%= data.supine.lowerExtremities.lowerLegFootAngle.rightAngle %>&#176;</span>
+              </div>
+            </td>
+            <td>
+              <div><%= data.supine.lowerExtremities.trunkThighAngle.observation %></div>
+              <div><%= data.supine.lowerExtremities.thighLowLegAngle.observation %></div>
+              <div><%= data.supine.lowerExtremities.lowerLegFootAngle.observation %></div>
+            </td>
+          </tr>
+
+          <tr class="table-row-headers">
+            <th class="<%= formatEmptyValueClass(data.supine.lowerExtremities.hipDuction, "") %>" >Hip Abduction/Adduction</th>
+            <th class="<%= formatEmptyValueClass(data.supine.lowerExtremities.hipRotation, "") %>" >Hip External/Internal Rotation</th>
+            <th class="<%= formatEmptyValueClass(data.supine.lowerExtremities.footInEversion, "") %>" >Foot Inversion/Eversion</th>
+          </tr>
+
+          <tr>
+            <td class="<%= formatEmptyValueClass(data.supine.lowerExtremities.hipDuction, "") %>" ><%= data.supine.lowerExtremities.hipDuction %></td>
+            <td class="<%= formatEmptyValueClass(data.supine.lowerExtremities.hipRotation, "") %>" ><%= data.supine.lowerExtremities.hipRotation %></td>
+            <td class="<%= formatEmptyValueClass(data.supine.lowerExtremities.footInEversion, "") %>" ><%= data.supine.lowerExtremities.footInEversion %></td>
+          </tr>
+
+          <tr class="table-row-headers">
+            <th rowspan="2" class="table-row-mainHeader">Head and Neck</th>
+            <th class="<%= formatEmptyValueClass(data.supine.headNeck.cervicalCurve, "") %>" >Cervical Curve</th>
+            <th class="<%= formatEmptyValueClass(data.supine.headNeck.lateralFlexion.condition, "") %>" >Lateral Flexion</th>
+            <th class="<%= formatEmptyValueClass(data.supine.headNeck.rotation.condition, "") %>" >Rotation</th>
+          </tr>
+
+          <tr>
+            <td class="<%= formatEmptyValueClass(data.supine.headNeck.cervicalCurve, "") %>" >
+              <%= data.supine.headNeck.cervicalCurve %>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.headNeck.lateralFlexion.condition, "angles") %>" >
+              <div><%= data.supine.headNeck.lateralFlexion.condition %>, <%= data.supine.headNeck.lateralFlexion.flexibility %></div>
+            </td>
+
+            <td class="<%= formatEmptyValueClass(data.supine.headNeck.rotation.condition, "angles") %>" >
+              <div><%= data.supine.headNeck.rotation.condition %>, <%= data.supine.headNeck.rotation.flexibility %></div>
+            </td>
+          </tr>
+
+          <tr class="table-row-headers">
+            <th rowspan="2" class="table-row-mainHeader">Upper Limbs</th>
+            <th class="<%= formatEmptyValueClass(data.supine.upperLimbs.shoulderPROM, "") %>" >Shoulder PROM</th>
+            <th class="<%= formatEmptyValueClass(data.supine.upperLimbs.elbowForearmPROM, "") %>" >Elbow and Forearm PROM</th>
+            <th class="<%= formatEmptyValueClass(data.supine.upperLimbs.wristHand, "") %>" >Wrist and Hand</th>
+          </tr>
+
+          <tr>
+            <td class="<%= formatEmptyValueClass(data.supine.upperLimbs.shoulderPROM, "") %>" ><%= data.supine.upperLimbs.shoulderPROM %></td>
+            <td class="<%= formatEmptyValueClass(data.supine.upperLimbs.elbowForearmPROM, "") %>" ><%= data.supine.upperLimbs.elbowForearmPROM %></td>
+            <td class="<%= formatEmptyValueClass(data.supine.upperLimbs.wristHand, "") %>" ><%= data.supine.upperLimbs.wristHand %></td>
+          </tr>
+
+          <tr class="comments">
+            <th class="table-row-mainHeader">Comments</th>
+            <td colspan="3" class="<%= formatEmptyValueClass(data.supine.comments, "") %>" >
+            <% if (data.supine.comments !== undefined) { %>
+            <% const supineComments = data.supine.comments.split("."); %>
+              <ul>
+                <% supineComments.map((comment) => { %>
+                  <% const trimmedComment = comment.trim(); %>
+                  <% if (trimmedComment) { %>
+                    <li><%= trimmedComment %></li>
+                  <% } %>
+                <% }); %>
+              </ul>
+            <% } %>
+            </td>
+          </tr>
+      </tbody>
+  </table>
+
+  <!-- Sitting -->
+  <table class="measurementData-table">
+    <thead>
+        <tr>
+          <th colspan="4" class="table-header">Sitting</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-row-headers">
+          <th rowspan="2" class="table-row-mainHeader">Balance</th>
+        </tr>
+
+        <tr class="measurementData-values">
+          <td colspan="3" class="<%= formatEmptyValueClass(data.sitting.balance, "") %>" >
+            <%= data.sitting.balance %>
+          </td>
+        </tr>
+
+        <tr class="table-row-headers">
+          <th rowspan="3" class="table-row-mainHeader">Pelvis</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.pelvis.tilt, "") %>" >Tilt (Side View)</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.pelvis.obliquity, "") %>" >Obliquity (Frontal View)</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.pelvis.rotation, "") %>" >Rotation (Top View)</th>
+        </tr>
+
+        <tr class="table-row-images">
+          <td class="<%= formatEmptyValueClass(data.sitting.pelvis.tilt, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-tilt", data.sitting.pelvis.tilt) %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.pelvis.obliquity, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-obliquity", data.sitting.pelvis.obliquity) %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.pelvis.rotation, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/pelvis-rotation", data.sitting.pelvis.rotation) %>
+          </td>
+        </tr>
+
+        <tr class="measurementData-values">
+          <td class="<%= formatEmptyValueClass(data.sitting.pelvis.tilt, "") %>" >
+            <%= data.sitting.pelvis.tilt %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.pelvis.obliquity, "") %>" >
+            <%= data.sitting.pelvis.obliquity %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.pelvis.rotation, "") %>" >
+            <%= data.sitting.pelvis.rotation %>
+          </td>
+        </tr>
+
+        <tr class="table-row-headers">
+          <th rowspan="3" class="table-row-mainHeader">Trunk</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.trunk.antPosterior.condition, "") %>" >Anterior/Posterior</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.trunk.scoliosis.condition, "") %>" >Scoliosis (Frontal View)</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.trunk.rotation, "") %>" >Rotation (Top View)</th>
+        </tr>
+
+        <tr class="table-row-images">
+          <td class="<%= formatEmptyValueClass(data.sitting.trunk.antPosterior.condition, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/trunk-anteriorPosterior", data.sitting.trunk.antPosterior.condition) %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.trunk.scoliosis.condition, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/trunk-scoliosis", data.sitting.trunk.scoliosis.condition) %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.trunk.rotation, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/trunk-rotation", data.sitting.trunk.rotation) %>
+          </td>
+        </tr>
+
+        <tr class="measurementData-values">
+          <td class="<%= formatEmptyValueClass(data.sitting.trunk.antPosterior.condition, "angles") %>" >
+            <div><%= data.sitting.trunk.antPosterior.condition %>, <%= data.sitting.trunk.antPosterior.flexibility %></div>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.trunk.scoliosis.condition, "angles") %>" >
+            <div><%= data.sitting.trunk.scoliosis.condition %>, <%= data.sitting.trunk.scoliosis.flexibility %></div>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.trunk.rotation, "") %>" >
+            <%= data.sitting.trunk.rotation %>
+          </td>
+        </tr>
+
+        <tr class="table-row-headers">
+          <th rowspan="3" class="table-row-mainHeader">Lower Extremities</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.initialSittingAngles.thighTrunk, "") %>" >Initial Sitting Angles</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.position.condition, "") %>" >Position (Frontal View)</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.windswept, "") %>" >Windswept (Frontal View)</th>
+        </tr>
+
+        <tr class="table-row-images">
+          <td class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.initialSittingAngles.thighTrunk, "") %>" >
+            <div>
+              <img class="anatomy-image-angle" src="https://firebasestorage.googleapis.com/v0/b/mat-image.appspot.com/o/thighTrunkAngle.jpg?alt=media&token=020af48a-9400-4f5e-91f8-a7eb7d9c48b1&_gl=1*1kcr5nx*_ga*MTcwNzgzMDE0OC4xNjkzODI3OTM0*_ga_CW55HF8NVT*MTY5NjM3OTQxMS44LjEuMTY5NjM4MDAxOS42MC4wLjA." alt="anatomy image" >
+              <img class="anatomy-image-angle" src="https://firebasestorage.googleapis.com/v0/b/mat-image.appspot.com/o/thighLowerLegAngle.jpg?alt=media&token=0045eedc-e71b-421d-a525-555f4a185664&_gl=1*2ofxfw*_ga*MTcwNzgzMDE0OC4xNjkzODI3OTM0*_ga_CW55HF8NVT*MTY5NjM3OTQxMS44LjEuMTY5NjM4MDA1Mi4yNy4wLjA." alt="anatomy image" >
+            </div>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.position.condition, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/hips-position", data.sitting.lowerExtremities.position.condition) %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.windswept, "") %>" >
+            <%- await formatIMGPath("gs://mat-image.appspot.com/hips-windswept", data.sitting.lowerExtremities.windswept) %>
+          </td>
+        </tr>
+
+        <tr class="measurementData-values">
+          <td class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.initialSittingAngles.thighTrunk, "") %>" >
+            <div class="angles">
+              <div><span>Thigh-Trunk Angle:</span><%= data.sitting.lowerExtremities.initialSittingAngles.thighTrunk %>&#176;</div>
+              <div><span>Thigh-Lower Leg Angle:</span><%= data.sitting.lowerExtremities.initialSittingAngles.thighLowerLeg %>&#176;</div>
+            </div>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.position.condition, "") %>" >
+            <div class="angles">
+              <div><%= data.sitting.lowerExtremities.position.condition %>, <%= data.sitting.lowerExtremities.position.rotation %></div>
+            </div>
+          </td>
+          
+          <td class="<%= formatEmptyValueClass(data.sitting.lowerExtremities.windswept, "") %>" >
+            <%= data.sitting.lowerExtremities.windswept %>
+          </td>
+        </tr>
+
+        <tr class="table-row-headers">
+          <th rowspan="2" class="table-row-mainHeader">Head and Neck</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.headNeck.cervicalCurve, "") %>" >Cervical Curve (Side View)</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.headNeck.neckPosition, "") %>" >Neck Position (Frontal View)</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.headNeck.control, "") %>" >Control</th>
+        </tr>
+
+        <tr>
+          <td class="<%= formatEmptyValueClass(data.sitting.headNeck.cervicalCurve, "") %>" >
+            <%= data.sitting.headNeck.cervicalCurve %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.headNeck.neckPosition, "") %>" >
+            <%= data.sitting.headNeck.neckPosition %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.headNeck.control, "") %>" >
+            <%= data.sitting.headNeck.control %>
+          </td>
+        </tr>
+
+        <tr class="table-row-headers">
+          <th rowspan="2" class="table-row-mainHeader">Upper Limbs</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.upperLimbs.shoulderPosition.condition, "") %>" >Shoulder Positioning</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.upperLimbs.elbowForearmPosition, "") %>" >Elbow and Forearm Position</th>
+          <th class="<%= formatEmptyValueClass(data.sitting.upperLimbs.handWristPosition, "") %>" >Hand and Wrist Positioning</th>
+        </tr>
+
+        <tr>
+          <td class="<%= formatEmptyValueClass(data.sitting.upperLimbs.shoulderPosition.condition, "") %>" >
+            <div class="angles">
+              <div><span>Condition:</span><%= data.sitting.upperLimbs.shoulderPosition.condition %></div>
+              <div><span>Description:</span><%= data.sitting.upperLimbs.shoulderPosition.description %></div>
+            </div>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.upperLimbs.elbowForearmPosition, "") %>" >
+            <%= data.sitting.upperLimbs.elbowForearmPosition %>
+          </td>
+
+          <td class="<%= formatEmptyValueClass(data.sitting.upperLimbs.handWristPosition, "") %>" >
+            <%= data.sitting.upperLimbs.handWristPosition %>
+          </td>
+        </tr>
+
+        <tr class="comments">
+          <th class="table-row-mainHeader">Comments</th>
+          <td colspan="3" class="<%= formatEmptyValueClass(data.sitting.comments, "") %>" >
+          <% if (data.sitting.comments !== undefined) { %>
+          <% const sittingComments = data.sitting.comments.split("."); %>
+            <ul>
+              <% sittingComments.map((comment) => { %>
+                <% const trimmedComment = comment.trim(); %>
+                <% if (trimmedComment) { %>
+                  <li><%= trimmedComment %></li>
+                <% } %>
+              <% }); %>
+            </ul>
+          <% } %>
+          </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

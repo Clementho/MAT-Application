@@ -1,0 +1,272 @@
+.auth-container {
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(29, 77, 147);
+  overflow: hidden;
+  position: relative;
+}
+
+.auth-container-item {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  flex-direction: column;
+}
+
+.auth-box {
+  width: 400px;
+  max-width: 90%;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 20px;
+  margin-top: 0;
+  position: relative;
+  padding: 0 25px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -10px;
+  margin-top: -20px;
+}
+
+.logo img {
+  width: 170px;
+  height: auto;
+}
+
+.title {
+  text-align: center;
+  color: white;
+}
+
+.sub-title {
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 5px;
+  color: rgb(29, 77, 147);
+}
+
+.auth-form {
+  min-width: 120%;
+  display: block;
+  flex-wrap: wrap;
+  justify-content:center;
+  margin-left: 60%;
+  margin-top: -50px;
+}
+
+.auth-form-row {
+  width: 55% ;
+  margin-bottom: 20px;
+}
+
+.auth-form-label {
+  display: none;
+}
+
+.auth-form-input {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border-color: lightgray;
+  background-color: rgba(233, 233, 233, 100%);
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 18%;
+  right: 17%;
+}
+
+.button {
+  padding: 15px;
+  background-color: #b1d235;
+  color: black;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.error {
+  position: absolute;
+  text-align: center;
+  color: red;
+  max-height: 20px;
+  margin-top: 10px;
+  top: 55%;
+  left:auto;
+}
+
+.error-forgotpassword-email {
+  top: 45%;
+}
+
+.link-container {
+  position: absolute;
+  top: 68%;
+  left: auto;
+}
+.link-container-1 {
+  position: absolute;
+  top: 65%;
+  left: auto;
+}
+
+.link-container p {
+  color: rgb(18, 85, 154);
+}
+
+.link-container a {
+  color: rgb(18, 85, 154);
+}
+
+.link-container-backToLogin{
+  position: absolute;
+  top: 61%;
+  left: auto;
+}
+
+.pattern {
+  position: absolute;
+  bottom: -80px;
+  left: 0;
+  width: 100%;
+  height: 90px; /* Adjust the height as needed */
+  background-color: transparent;
+}
+
+.pattern img {
+  width: 100%;
+  height: 20%;
+  object-fit: cover;
+}
+/*Smaller Screens*/
+@media (max-width: 768px) {
+  .auth-box {
+    width: 83%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .link-container-1, .link-container{
+    font-size: 94%;
+  }
+  
+  .auth-form-row {
+    margin-bottom: 15px;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    bottom: 14%;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .title{
+    font-size: 1.5rem;
+  }
+  
+  .error {
+    text-align: center;
+    margin-top:  10px;
+    
+  }
+
+  .auth-form-label {
+    display: none;
+  }
+}
+
+/*Galaxy A51*/
+@media (min-width: 412px) {
+  .auth-box {
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+} 
+
+/* Responsive for Surface Duo */
+ @media (min-height: 700px) {
+  .button-container {
+    min-width: 80px;
+  }
+} 
+
+@media(min-width: 800px){
+  .button {
+    width: 100px;
+  }
+}
+
+/* Responsive for iPad Mini */
+@media (max-width: 768px) and (max-height: 1024px) {
+  .button-container {
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+}
+
+/*Samsung Fold*/
+/* Samsung Fold */
+@media (max-width: 280px){
+  .title{
+    font-size: 140%;
+  }
+  
+  .button{
+    padding-top: 10px;
+    font-size: 13px;
+  }
+
+  .sub-title{
+    margin-top: 30px;
+  }
+
+  .button-container {
+    width: 60px;
+    height: 40px;
+    margin-bottom: 35px;
+  }
+
+  .error {
+    left: auto;
+    font-size: 10px; /* Update the margin-top value to a valid number */
+  }
+
+  .link-container, .link-container-1{
+    font-size: 70%;
+  }
+
+  .auth-box{
+    padding-top: 30px;
+  }
+}
