@@ -21,10 +21,14 @@ The application was designed to deconstruct the complex assessment process into 
 * **Digitalized Assessment Guidance**: Reflects a digital version of the physical MAT assessment form, complete with step-by-step guidance for various measurement phases and categories. This feature ensures therapists can follow a structured process with minimal oversight.
 * **Intuitive Interface with Visual Feedback**: Incorporates visual indicators and appropriate color coding to notify users of the states of each assessment field. At a glance, users can monitor progress, identify errors, or spot incomplete sections, improving assessment accuracy and efficiency.
 
+## Languages, Libraries & Frameworks
+<img src="https://skillicons.dev/icons?i=js,react,materialui,express,nodejs&perline=10" alt="Languages, Libraries and Frameworks" />
+
+## Tools & Services
+<img src="https://skillicons.dev/icons?i=figma,mongodb,aws,firebase,githubactions,nginx&perline=10" alt="Tools and Services" />
 
 ## Important Note
 The prototype application is no longer publicly hosted as of **17 February 2024**.
-
 
 ## References
 [ACI NSW Basic Mechanical Assessment Tool (MAT) Form](https://aci.health.nsw.gov.au/__data/assets/pdf_file/0004/312745/ACI-SSCIS-assessment-form-AF2.3-basic-MAT-assessment.pdf)
