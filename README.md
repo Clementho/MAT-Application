@@ -11,6 +11,11 @@ The application was designed to deconstruct the complex assessment process into 
 * Visual Indicators and Color Coding: Intuitive feedback highlights the status of each field, enabling therapists to quickly identify progress, detect errors, or address incomplete sections.
 * Autosave Functionality: Ensures data is saved automatically, allowing therapists to seamlessly resume assessments in the event of disruptions or reschedules.
 
+## Languages, Libraries & Frameworks
+<img src="https://skillicons.dev/icons?i=html,css,js,react,tailwind,materialui,express,nodejs&perline=10" alt="Languages, Libraries and Frameworks" />
+
+## Tools & Services
+<img src="https://skillicons.dev/icons?i=figma,mongodb,aws,firebase,githubactions,nginx&perline=10" alt="Tools and Services" />
 
 ## Key Features
 * **Booking and Scheduling**: Simplifies the scheduling process, allowing Scope Australia administrative personnel to book MAT assessments efficiently through an intuitive interface.
@@ -20,12 +25,6 @@ The application was designed to deconstruct the complex assessment process into 
 * **Therapist Management**: Facilitates the management of therapists, including defining roles, responsibilities, and user access levels.
 * **Digitalized Assessment Guidance**: Reflects a digital version of the physical MAT assessment form, complete with step-by-step guidance for various measurement phases and categories. This feature ensures therapists can follow a structured process with minimal oversight.
 * **Intuitive Interface with Visual Feedback**: Incorporates visual indicators and appropriate color coding to notify users of the states of each assessment field. At a glance, users can monitor progress, identify errors, or spot incomplete sections, improving assessment accuracy and efficiency.
-
-## Languages, Libraries & Frameworks
-<img src="https://skillicons.dev/icons?i=js,react,materialui,express,nodejs&perline=10" alt="Languages, Libraries and Frameworks" />
-
-## Tools & Services
-<img src="https://skillicons.dev/icons?i=figma,mongodb,aws,firebase,githubactions,nginx&perline=10" alt="Tools and Services" />
 
 ## Important Note
 The prototype application is no longer publicly hosted as of **17 February 2024**.
